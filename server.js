@@ -3,6 +3,8 @@ const app = express();
 const PORT = process.env.PORT || 5000
 const mongoose = require('mongoose');
 //require("dotenv").config();
+const taskRoutes = require('./routes/taskRoutes');
+const userRoutes = require('./routes/userRouter');
 
 const cors = require('cors');
 const env = require('./config/config');
@@ -27,7 +29,8 @@ mongoose.connect(env.db, {
 .catch((err) => console.log('[ERROR] DB connection failed', err));
 
 //Here come routes
-//app.use('', blablaRouter);
+app.use('/task', taskRoutes);
+app.use('/user', userRoutes);
 
 // Error handler
 app.use(function errorHandler(err, req, res, next) {

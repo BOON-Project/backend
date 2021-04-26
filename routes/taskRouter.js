@@ -8,12 +8,13 @@ const {
   updateTask,
   deleteTask,
 } = require('../controllers/todosControllers');
-const { validateTodo } = require('../middleware/validation');
+//const { validateTodo } = require('../middleware/validation');
 
 // /tasks
 router.route('/').get( getTasks ).post( addTask );
 
 // /tasks/:id
+
 router.route('/:id').get( getTask ).put( updateTask ).delete( deleteTask );
 
 module.exports = router;
