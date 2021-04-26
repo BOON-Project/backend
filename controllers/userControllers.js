@@ -31,7 +31,7 @@ exports.loginUser = async (req, res, next) => {
   
       // handle user not found by given credentials
       if (!userFound) {
-        let error = new Error('Not found this user, my friend. Try again...');
+        let error = new Error('Cannot find this user');
         error.status = 401; // Unauthorized
         next(error); // forward my custom error to central error handler
       }
@@ -56,6 +56,16 @@ exports.deleteUser = async (req, res, next) => {
     }
 };
 
+// LOGOUT USER - TODO
+// exports.logoutUser = async (req, res, next) => {
+//     res.clearCookie('token', {
+//       sameSite: process.env.NODE_ENV == 'production' ? 'None' : 'lax',
+//       secure: process.env.NODE_ENV == 'production' ? true : false, //http on localhost, https on production
+//       httpOnly: true,
+//     }); // clear the cookie in the browser
+//     res.json({ message: 'Logged you out successfully' });
+//   };
+
 // EDIT USER
 exports.editUser = async (req, res, next) => {
     const { id } = req.params;
@@ -65,4 +75,10 @@ exports.editUser = async (req, res, next) => {
     } catch (err) {
       next(err);
     }
+};
+
+// AUTHENTICATE USER
+
+exports.authUser = (req, res) => {
+    res.json(req.user);
   };

@@ -3,8 +3,9 @@ const app = express();
 const PORT = process.env.PORT || 5000
 const mongoose = require('mongoose');
 //require("dotenv").config();
-const taskRoutes = require('./routes/taskRoutes');
+const taskRoutes = require('./routes/taskRouter');
 const userRoutes = require('./routes/userRouter');
+const meRoutes = require('./routes/meRouter');
 
 const cors = require('cors');
 const env = require('./config/config');
@@ -31,6 +32,7 @@ mongoose.connect(env.db, {
 //Here come routes
 app.use('/task', taskRoutes);
 app.use('/user', userRoutes);
+app.use('/me', meRoutes);
 
 // Error handler
 app.use(function errorHandler(err, req, res, next) {
