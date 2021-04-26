@@ -12,7 +12,8 @@ const TaskSchema = new Schema({
     boonee: { type: Schema.Types.ObjectId,
     ref: "User"},
     booner: { type: Schema.Types.ObjectId,
-        ref: "User"}
+        ref: "User"},
+    rating: {type: Number, required:false}
 },
 {
     versionKey: false,
