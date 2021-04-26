@@ -10,9 +10,17 @@ Anyone who owns a smart phone.
 BOON is our final project for the one-year web development course at DCI. 
 
 ## Technologies used
-React APp
-Redux
-MongoDB
-Bulma - SCSS - Tailwind CSS
+##### React APP
+##### Redux
+##### MongoDB
+##### Bulma - SCSS - Tailwind CSS
 
-## 
+# Getting started
+
+
+# Contributing
+1. Fork it (https://github.com/BOON-Project/backend)
+2. Create your feature branch (git checkout -b feature/myContribution)
+3. Commit your changes (git commit -am 'Add some contribution')
+4. Push to the branch (git push origin feature/myContribution)
+5. Create a new Pull Request
