@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/BOON-Project/backend/issues"
   },
-  "homepage": "https://github.com/BOON-Project/backend#readme"
+  "homepage": "https://github.com/BOON-Project/backend#readme",
+  "dependencies": {
+    "express-validator": "^6.10.1"
+  }
 }
