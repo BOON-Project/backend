@@ -2,14 +2,26 @@ const User = require('../models/User');
 
 // ADD
 exports.addUser = async (req, res, next) => {
-    const info = req.body;
-    try {
-      const user = await User.create(info);
-      res.json(user);
-    } catch (err) {
-      next(err);
-    }
-  };
+  const userData = req.body;
+  try {
+    // Create the user and grab the user IDs
+    const user = await User.create(userData);
+    // Generate a token
+    // const token = user.generateAuthToken();
+
+    // // put the token in the response
+    // res
+    //   .cookie('token', token, {
+    //     expires: new Date(Date.now() + 604800000),
+    //     sameSite: process.env.NODE_ENV == 'production' ? 'None' : 'lax',
+    //     secure: process.env.NODE_ENV == 'production' ? true : false, //http on localhost, https on production
+    //     httpOnly: true,
+    //   })
+      res.json( user );
+  } catch (err) {
+    next(err);
+  }
+};
 
 // GET USER
 exports.getUser = async (req, res, next) => {

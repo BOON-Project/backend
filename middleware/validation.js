@@ -27,7 +27,7 @@ exports.validateTask = (req, res, next) =>{
 //user validation & sanitization
 //bunch of user's rules
 
-exports.userValidationRequirements = ()=>{
+exports.userValidationRequirements = () => {
     return[
         body('email')
         .trim()
