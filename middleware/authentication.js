@@ -10,6 +10,7 @@ exports.authentication = async(req, res, next)=>{
         //then we validate cookie. next search user with that COOKIE
         const user = await User.findByToken(token);
 
+        console.log("token", token, "user", user);
         //if token is not valid, then an error shows up
         if(!user) next(customError("Cannot validate"));
 

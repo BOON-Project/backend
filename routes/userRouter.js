@@ -22,7 +22,8 @@ router.route('/').post( userValidationRules(),userValidationErrorHandling, addUs
 // Route: /user/login
 router.route('/login').post(loginUser);
 
+
 // Route: /user/:id
-router.route('/:id').get( authentication, getUser ).put( authentication, editUser ).delete( deleteUser );
+router.route('/:id').get( getUser ).put( editUser ).delete( deleteUser );
 
 module.exports = router;
