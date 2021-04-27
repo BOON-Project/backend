@@ -1,5 +1,4 @@
-  
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 // const {   EXAMPLE FOR LATER
 //   userValidationRules,
@@ -10,19 +9,18 @@ const router = express.Router();
 const {
   getUser,
   addUser,
-  updateUser,
+  editUser,
   deleteUser,
   loginUser,
-  logoutUser
-} = require('../controllers/usersControllers');
+  logoutUser,
+} = require("../controllers/usersControllers");
 
-
-router.route('/').post( addUser );
+router.route("/").post(addUser);
 
 // Route: /users/login
-router.route('/login').post(loginUser);
+router.route("/login").post(loginUser);
 
 // Route: /users/:id
-router.route('/:id').get( getUser ).put( updateUser ).delete( deleteUser );
+router.route("/:id").get(getUser).put(editUser).delete(deleteUser);
 
 module.exports = router;
