@@ -2,13 +2,11 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000
 const mongoose = require('mongoose');
-require("dotenv").config();
+//require("dotenv").config();
 const taskRoutes = require('./routes/taskRouter');
 const userRoutes = require('./routes/userRouter');
 const meRoutes = require('./routes/meRouter');
 const bcryptjs = require("bcryptjs")
-const cookieParser = require('cookie-parser');
-
 
 const cors = require('cors');
 const env = require('./config/config');
@@ -18,12 +16,7 @@ app.listen(PORT, () => {
 });
 
 app.use(express.json());
-app.use(cors(
-  // { origin: 'http://localhost:3000', // frontend URL should be configurable
-  // credentials: true, // allow cookies to be sent from frontend to us}
-  // }
-  ));
-app.use(cookieParser());
+app.use(cors());
 app.get('/', (req, res) => {
     res.send("Hello")
 });
