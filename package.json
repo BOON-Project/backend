@@ -20,20 +20,10 @@
   },
   "homepage": "https://github.com/BOON-Project/backend#readme",
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "cors": "^2.8.5",
-=======
-
-=======
->>>>>>> 5ae20b8299174f4549d2d0fe0b50583a327544d9
+    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
-<<<<<<< HEAD
->>>>>>> 688dff6f938b17338047b0c83c249b6c0c3f1900
-=======
     "cors": "^2.8.5",
->>>>>>> 5ae20b8299174f4549d2d0fe0b50583a327544d9
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.1",
