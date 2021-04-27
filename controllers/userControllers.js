@@ -5,8 +5,24 @@ const bcryptjs = require('bcryptjs');
 exports.addUser = async (req, res, next) => {
   const userData = req.body;
   try {
+
+    const existingUserName = await User.findOne({userName: userData.userName})
+    const existingEmail = await User.findOne({email: userData.email})
+    if(existingUserName){
+      let error = new Error(`${userData.userName} already exists`);
+      error.status = 400; 
+      next(error);
+    }
+    if(existingEmail){
+      let error = new Error(`${userData.email} already exists`);
+      error.status = 400; 
+      next(error);
+    }
+
     // Create the user and grab the user IDs
     const user = await User.create(userData);
+    
+
     // Generate a token
     // const token = user.generateAuthToken();
 
@@ -18,7 +34,7 @@ exports.addUser = async (req, res, next) => {
     //     secure: process.env.NODE_ENV == 'production' ? true : false, //http on localhost, https on production
     //     httpOnly: true,
     //   })
-      res.json( user );
+      res.json( {user});
   } catch (err) {
     next(err);
   }
