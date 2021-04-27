@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const bcryptjs = require('bcryptjs');
 
 // ADD
 exports.addUser = async (req, res, next) => {
@@ -39,18 +40,26 @@ exports.loginUser = async (req, res, next) => {
     const { userName, password } = req.body;
     try {
       // grab me a user from DB by email & password
-      const userFound = await User.findOne({ userName, password });
+      const userFound = await User.findOne({ userName});
   
       // handle user not found by given credentials
       if (!userFound) {
-        let error = new Error('Cannot find this user');
-        error.status = 401; // Unauthorized
-        next(error); // forward my custom error to central error handler
+        let error = new Error(`Not found user with username ${userName}`);
+        error.status = 401; 
+        next(error);
+      }
+
+      const pwCompareResult = bcryptjs.compareSync(password, userFound.password);
+
+      if(!pwCompareResult) {
+        let error = new Error("Wrong password");
+        error.status = 401; 
+        next(error);
       }
   
       res.json(userFound);
     } catch (err) {
-      next(error);
+      next(err);
     }
   };
 

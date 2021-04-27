@@ -6,7 +6,9 @@ require("dotenv").config();
 const taskRoutes = require('./routes/taskRouter');
 const userRoutes = require('./routes/userRouter');
 const meRoutes = require('./routes/meRouter');
+const bcryptjs = require("bcryptjs")
 const cookieParser = require('cookie-parser');
+
 
 const cors = require('cors');
 const env = require('./config/config');

@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
+const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const env = require('../config/config');
 const ourSuperSecretKey = env.jwt_key;
+
 
 const UserSchema = new Schema({
     firstName: { type: String, required: true },
@@ -44,6 +46,15 @@ const UserSchema = new Schema({
 //       return;
 //     }
 //   };
+
+UserSchema.pre('save', function () {
+    const user = this;
+    // convert plain password to password hash (but ONLY if password was modified)
+    if (user.isModified('password')) {
+      user.password = bcryptjs.hashSync(user.password, 8); // 8 = salting rounds
+    }
+  });
+
 
 const User = model("User", UserSchema);
 
