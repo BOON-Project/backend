@@ -6,6 +6,7 @@ const router = express.Router();
 //   userValidationErrorHandling,
 // } = require('../middleware/validation');
 const { authentication } = require('../middleware/authentication');
+const {userValidationRules, userValidationErrorHandling} = require("../middleware/validation")
 
 const {
   addUser,
@@ -13,16 +14,16 @@ const {
   loginUser,
   deleteUser,
   editUser,
- // logoutUser,
 } = require('../controllers/userControllers');
 
 
-router.route('/').post( addUser );
+router.route('/').post( userValidationRules(),userValidationErrorHandling, addUser );
 
 // Route: /user/login
-router.route('/login').post( authentication, loginUser);
+router.route('/login').post(loginUser);
+
 
 // Route: /user/:id
-router.route('/:id').get( authentication, getUser ).put( authentication, editUser ).delete( deleteUser );
+router.route('/:id').get( getUser ).put( editUser ).delete( deleteUser );
 
 module.exports = router;
