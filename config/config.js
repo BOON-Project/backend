@@ -32,6 +32,7 @@ const config = {
   frontendOrigin: env.FRONTEND_ORIGIN,
 };
 
+
 console.log('OUR ENVIROMENT SETUP IS:', config.env);
 console.log(config)
 

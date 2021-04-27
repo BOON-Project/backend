@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+    const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 //const env = require('../config/config'); for the key later if we wanna use jwt
 
