@@ -13,17 +13,17 @@ exports.addTask = async (req, res, next) => {
 
 // ADD THESE STATUSES: accepted, rejected, finished and confirmed
 
-// PENDING TASK 
+// PENDING TASK
   //- someone chooses this task and gets in touch with the task taskee
   //- should include multiple ids: taskee and tasker
-exports.pendingTask 
+exports.pendingTask
 
 // REJECTED TASK - the taskee refuses the offer
   // - should it be deleted?????????????????????
 exports.rejectedTask = async (req, res, next) => {
   const {id} = req.params;
   try {
-      let taskRejected = await Task.findByIdAndUpdate(id, 
+      let taskRejected = await Task.findByIdAndUpdate(id,
           { status: "rejected"}
       )
       res.json(taskRejected)
@@ -36,7 +36,7 @@ exports.rejectedTask = async (req, res, next) => {
 exports.acceptedTask = async (req, res, next) => {
   const {id} = req.params;
   try {
-      let taskAccepted = await Task.findByIdAndUpdate(id, 
+      let taskAccepted = await Task.findByIdAndUpdate(id,
           { status: "accepted"}
       )
       res.json(taskAccepted)
@@ -45,8 +45,8 @@ exports.acceptedTask = async (req, res, next) => {
     }
 };
 
-// FINISHED TASK 
-  // -taskee cofirms that she/he/they did the task
+// FINISHED TASK
+  // -taskee confirms that she/he/they did the task
 exports.finishedTask
 
 // CONFIRMED TASK
@@ -71,12 +71,12 @@ exports.getTask = async (req, res, next) => {
     res.json(task);
 
   } catch (err) {
-    next(err); 
+    next(err);
   }
 };
 
 
-//CHECK THIS BECEUSE I AM NOT SURE IF THIS DOES WHAT I WANT IT TO
+//CHECK THIS BECAUSE I AM NOT SURE IF THIS DOES WHAT I WANT IT TO
 exports.getTasks = async (req, res, next) => {
   let allTasks = await Task.find().populate('userId'); // grab user document and replace ID by user data
   res.json(allTasks);

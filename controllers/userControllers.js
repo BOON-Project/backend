@@ -1,15 +1,28 @@
 const User = require('../models/User');
+const bcryptjs = require('bcryptjs');
 
 // ADD
 exports.addUser = async (req, res, next) => {
-    const info = req.body;
-    try {
-      const user = await User.create(info);
-      res.json(user);
-    } catch (err) {
-      next(err);
-    }
-  };
+  const userData = req.body;
+  try {
+    // Create the user and grab the user IDs
+    const user = await User.create(userData);
+    // Generate a token
+    // const token = user.generateAuthToken();
+
+    // // put the token in the response
+    // res
+    //   .cookie('token', token, {
+    //     expires: new Date(Date.now() + 604800000),
+    //     sameSite: process.env.NODE_ENV == 'production' ? 'None' : 'lax',
+    //     secure: process.env.NODE_ENV == 'production' ? true : false, //http on localhost, https on production
+    //     httpOnly: true,
+    //   })
+      res.json( user );
+  } catch (err) {
+    next(err);
+  }
+};
 
 // GET USER
 exports.getUser = async (req, res, next) => {
@@ -27,18 +40,26 @@ exports.loginUser = async (req, res, next) => {
     const { userName, password } = req.body;
     try {
       // grab me a user from DB by email & password
-      const userFound = await User.findOne({ userName, password });
+      const userFound = await User.findOne({ userName});
   
       // handle user not found by given credentials
       if (!userFound) {
-        let error = new Error('Cannot find this user');
-        error.status = 401; // Unauthorized
-        next(error); // forward my custom error to central error handler
+        let error = new Error(`Not found user with username ${userName}`);
+        error.status = 401; 
+        next(error);
+      }
+
+      const pwCompareResult = bcryptjs.compareSync(password, userFound.password);
+
+      if(!pwCompareResult) {
+        let error = new Error("Wrong password");
+        error.status = 401; 
+        next(error);
       }
   
       res.json(userFound);
     } catch (err) {
-      next(error);
+      next(err);
     }
   };
 
