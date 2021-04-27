@@ -1,9 +1,6 @@
-//const customError = require("../helpers/customError")
-const User = require("../models/User")
 const {body, validationResult} = require('express-validator')
-const customError = require('../helpers/customError');
 
-exports.validateTask = (req, res, next) =>{
+/* exports.validateTask = (req, res, next) =>{
     console.log("hi from middleware", req.body);
     const task = req.body;
     if(
@@ -22,12 +19,10 @@ exports.validateTask = (req, res, next) =>{
         error.status = 400;
         next(error);
     }
-};
+}; */
 
 //user validation & sanitization
-//bunch of user's rules
-
-exports.userValidationRequirements = ()=>{
+exports.userValidationRules = ()=>{
     return[
         body('email')
         .trim()
@@ -39,15 +34,7 @@ exports.userValidationRequirements = ()=>{
         .withMessage("Your password is not safe")
         .bail()
         .custom((value)=>{
-      //value is password in the body
-        // * Passwords must be
-        // * - At least 8 characters long, max length anything
-        // * - Include at least 1 lowercase letter
-        // * - 1 capital letter
-        // * - 1 number
-        // * - 1 special character => !@#$%^&*
         const regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-        //returns a boolean
         const res = regex.test(value);
         return res;
         })
@@ -58,6 +45,9 @@ exports.userValidationRequirements = ()=>{
     ];
 };
 
+const mergeErrors = (loadErrors) => {
+    return loadErrors.map((error) => `${error.param}: ${error.msg}`).join('. ');
+  };
 
 //error handling IF userValidation fails
 exports.userValidationErrorHandling = (req, res, next)=>{
@@ -66,13 +56,10 @@ exports.userValidationErrorHandling = (req, res, next)=>{
     return next();
 
     const loadErrors = errors.array();
-    const mergeErrors = mergeErrors(loadErrors);
+    const mergedErrors = mergeErrors(loadErrors);
 
-    next(customError(mergeErrors, 422));
+    let error = new Error(mergedErrors);
+    error.status = 422; 
+    next(error);
 }
 
-//client needs errors as strings,
-//needs to be checked!!!!
-const allErrors = (loadErrors) => {
-    return loadErrors.map((error) => `${error.param}: ${error.msg}`).join('. ');
-  };
