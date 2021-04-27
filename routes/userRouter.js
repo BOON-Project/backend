@@ -13,14 +13,13 @@ const {
   loginUser,
   deleteUser,
   editUser,
- // logoutUser,
 } = require('../controllers/userControllers');
 
 
 router.route('/').post( addUser );
 
 // Route: /user/login
-router.route('/login').post( authentication, loginUser);
+router.route('/login').post(loginUser);
 
 // Route: /user/:id
 router.route('/:id').get( authentication, getUser ).put( authentication, editUser ).delete( deleteUser );
