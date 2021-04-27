@@ -4,23 +4,23 @@ const router = express.Router();
 //   userValidationRules,
 //   userValidationErrorHandling,
 // } = require('../middleware/validation');
-// const { auth } = require('../middleware/authentication');
+const { authentication } = require('../middleware/authentication');
 
 const {
-  getUser,
   addUser,
-  editUser,
-  deleteUser,
+  getUser,
   loginUser,
-  logoutUser,
-} = require("../controllers/usersControllers");
+  deleteUser,
+  editUser,
+ // logoutUser,
+} = require('../controllers/usersControllers');
 
 router.route("/").post(addUser);
 
-// Route: /users/login
-router.route("/login").post(loginUser);
+// Route: /user/login
+router.route('/login').post( authentication, loginUser);
 
-// Route: /users/:id
-router.route("/:id").get(getUser).put(editUser).delete(deleteUser);
+// Route: /user/:id
+router.route('/:id').get( authentication, getUser ).put( authentication, updateUser ).delete( deleteUser );
 
 module.exports = router;

@@ -10,10 +10,10 @@ const {
 } = require("../controllers/taskController");
 //const { validateTodo } = require('../middleware/validation');
 
-// /tasks
+// /task
 router.route("/").get(getTasks).post(addTask);
 
-// /tasks/:id
+// /task/:id
 
 router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
 
