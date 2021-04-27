@@ -6,9 +6,15 @@ exports.addUser = async (req, res, next) => {
   const userData = req.body;
   try {
 
-    const existingUser = await User.findOne({userName: userData.userName})
-    if(existingUser){
+    const existingUserName = await User.findOne({userName: userData.userName})
+    const existingEmail = await User.findOne({email: userData.email})
+    if(existingUserName){
       let error = new Error(`${userData.userName} already exists`);
+      error.status = 400; 
+      next(error);
+    }
+    if(existingEmail){
+      let error = new Error(`${userData.email} already exists`);
       error.status = 400; 
       next(error);
     }
