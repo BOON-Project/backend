@@ -4,10 +4,10 @@ const router = express.Router();
 const {
   getTask,
   getTasks,
-  addTask,
-  updateTask,
-  deleteTask,
-} = require("../controllers/taskController");
+ addTask, 
+ updateTask,
+ deleteTask
+} = require('../controllers/taskController');
 //const { validateTodo } = require('../middleware/validation');
 
 // /task

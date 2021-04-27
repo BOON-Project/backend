@@ -82,11 +82,6 @@ exports.getTasks = async (req, res, next) => {
   res.json(allTasks);
 };
 
-exports.getUserTasks = async (req, res, next) => {
-  const userId = req.user._id; 
-  const userTasks = await Todo.find({ userId });
-  res.json(userTasks);
-};
 
 exports.deleteTask = async (req, res, next) => {
   const { id } = req.params;
