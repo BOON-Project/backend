@@ -7,7 +7,7 @@ const {
  addTask, 
  updateTask,
  deleteTask
-} = require('../controllers/todosControllers');
+} = require('../controllers/taskController');
 //const { validateTodo } = require('../middleware/validation');
 
 // /task

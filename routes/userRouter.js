@@ -14,7 +14,7 @@ const {
   deleteUser,
   editUser,
  // logoutUser,
-} = require('../controllers/usersControllers');
+} = require('../controllers/userControllers');
 
 
 router.route('/').post( addUser );
@@ -23,6 +23,6 @@ router.route('/').post( addUser );
 router.route('/login').post( authentication, loginUser);
 
 // Route: /user/:id
-router.route('/:id').get( authentication, getUser ).put( authentication, updateUser ).delete( deleteUser );
+router.route('/:id').get( authentication, getUser ).put( authentication, editUser ).delete( deleteUser );
 
 module.exports = router;
