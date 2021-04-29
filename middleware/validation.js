@@ -31,7 +31,7 @@ exports.userValidationRules = ()=>{
         .normalizeEmail(),
         body('password')
         .isLength({min:8})
-        .withMessage("Your password is not safe")
+        .withMessage("Your password is too short")
         .bail()
         .custom((value)=>{
         const regex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
