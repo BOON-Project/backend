@@ -4,6 +4,7 @@ const Skill = require("../models/Skill");
 const Task = require("../models/Task");
 const faker = require("faker");
 const env = require("../config/config");
+const { random } = require("faker");
 
 mongoose.connect(env.db, {
     useNewUrlParser: true,
@@ -15,6 +16,8 @@ mongoose.connect(env.db, {
 .catch((err) => console.log('[ERROR] DB connection failed', err));
 
 (async function () {
+
+    let skillsDB = ["Petsitting", "Bricolage", "Painting", "Photography", "Massage", "Hair Styling","Video", "Brewing", "Jewellery", "Cooking"]
 
     //DELETE OLD USERS
     try{
@@ -36,6 +39,7 @@ mongoose.connect(env.db, {
                 email: faker.internet.email(),
                 birthday: faker.date.past(),
                 password: "01234",
+                skills: random.arrayElement(skillsDB),
             };
 
             const user = new User(userData);
@@ -53,6 +57,9 @@ mongoose.connect(env.db, {
 
     const userIds = usersSeeded.map((user) => user._id);
 
+
+
+    
     //DELETE OLD SKILLS
      try{
         await Skill.deleteMany({});
@@ -65,7 +72,7 @@ mongoose.connect(env.db, {
         .fill(null)
         .map(()=>{
             const skillData = {
-                name: faker.commerce.product(),
+                name: faker.random.arrayElement(skillsDB),
                 creator: faker.random.arrayElement(userIds)
             };
 

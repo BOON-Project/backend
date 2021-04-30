@@ -13,7 +13,8 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
-    avatar: { type: String, required: false, default: '/statics/avatar.png' }
+    avatar: { type: String, required: false, default: '/statics/avatar.png' },
+    skills: {type:Array, required:false}
 },
 {
     versionKey: false,
@@ -54,7 +55,6 @@ UserSchema.pre('save', function () {
       user.password = bcryptjs.hashSync(user.password, 8); // 8 = salting rounds
     }
   });
-
 
 const User = model("User", UserSchema);
 
