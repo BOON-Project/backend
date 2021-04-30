@@ -8,7 +8,7 @@ const {
   updateTask,
   deleteTask,
 } = require("../controllers/taskController");
-//const { validateTodo } = require('../middleware/validation');
+//const { validateTask } = require('../middleware/validation');
 
 // /task
 router.route("/").get(getTasks).post(addTask);
