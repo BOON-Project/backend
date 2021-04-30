@@ -9,7 +9,8 @@ exports.getUserSkills = async (req, res, next) => {
 
 //   GET ALL SKILLS
 exports.getSkills = async (req, res, next) => {
-  let skillsAll = await Todo.find()// grab user document and replace ID by user data
+  let skillsAll = await Skill.find()
+  console.log(skillsAll);
   res.json(skillsAll);
 };
 
