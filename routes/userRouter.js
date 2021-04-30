@@ -12,6 +12,7 @@ const {
 
 const {
   addUser,
+  getUsers,
   getUser,
   loginUser,
   deleteUser,
@@ -20,6 +21,7 @@ const {
 
 router
   .route("/")
+  .get(getUsers)
   .post(userValidationRules(), userValidationErrorHandling, addUser);
 
 // Route: /user/login
