@@ -1,4 +1,5 @@
 const Task = require('../models/Task');
+const User = require('../models/User')
 
 // ADD - this point it should contain one userID
 exports.addTask = async (req, res, next) => {
@@ -20,8 +21,27 @@ exports.updateTask = async (req, res, next) => {
         let updatedTask = await Task.findByIdAndUpdate(id, { status})
     }
     let updatedTask = await Task.findByIdAndUpdate(id, { status, rating})
-    
-    res.json(updatedTask)
+        // res.json(updatedTask)
+
+
+    //Update also the user rating
+    const booner = updatedTask.booner;
+    console.log(booner);
+
+    const userTasks = await Task.find({booner})
+
+    const updatedRating = userTasks.reduce((acc,curr)=>{
+      console.log(curr.rating);
+        acc+=curr.rating;
+        acc = acc/userTasks.length;
+        return acc
+    },0)
+
+  const taskRating = await User.findByIdAndUpdate(booner, {
+    rating: updatedRating
+  })
+  // const userTodos = await Task.find( {booner});
+  res.json(taskRating);
   } catch (err) {
       next(err);
     }
@@ -57,10 +77,26 @@ exports.deleteTask = async (req, res, next) => {
   }
 }; 
 
+
 exports.getUserTasks = async (req, res, next) => {
   const { id } = req.params;
-  const boonee = id;
+  const booner = id;
   console.log(req.params);
-  const userTodos = await Task.find( {boonee});
-  res.json(userTodos);
+
+  const userTasks = await Task.find({booner})
+
+  const updatedRating = userTasks.reduce((acc,curr)=>{
+    console.log(curr.rating);
+      acc+=curr.rating;
+      acc = acc/userTasks.length;
+      console.log(acc);
+      return acc
+  },0)
+
+
+  const taskRating = await User.findByIdAndUpdate(booner, {
+    rating: updatedRating
+  })
+  // const userTodos = await Task.find( {booner});
+  res.json(taskRating);
 };

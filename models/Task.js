@@ -13,7 +13,7 @@ const TaskSchema = new Schema({
     ref: "User"},
     booner: { type: Schema.Types.ObjectId,
         ref: "User"},
-    rating: {type: Number, required:false}
+    rating: {type: Number, required:false, default: 0}
 },
 {
     versionKey: false,

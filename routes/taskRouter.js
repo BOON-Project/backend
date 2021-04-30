@@ -6,7 +6,8 @@ const {
   getTasks,
   addTask, 
   updateTask,
-  deleteTask
+  deleteTask,
+  getUserTasks
 } = require('../controllers/taskController');
 //const { validateTodo } = require('../middleware/validation');
 
@@ -14,6 +15,6 @@ const {
 router.route('/').get(getTasks).post( addTask );
 
 // /task/:id
-router.route('/:id').get(getTask).put( updateTask ).delete(deleteTask);
+router.route('/:id').get(getTask).put(updateTask).delete(deleteTask);
 
 module.exports = router;
