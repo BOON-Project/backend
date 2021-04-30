@@ -10,6 +10,7 @@ const {userValidationRules, userValidationErrorHandling} = require("../middlewar
 
 const {
   addUser,
+  getUsers,
   getUser,
   loginUser,
   deleteUser,
@@ -17,7 +18,7 @@ const {
 } = require('../controllers/userControllers');
 
 
-router.route('/').post( userValidationRules(),userValidationErrorHandling, addUser );
+router.route('/').get(getUsers).post( userValidationRules(),userValidationErrorHandling, addUser );
 
 // Route: /user/login
 router.route('/login').post(loginUser);

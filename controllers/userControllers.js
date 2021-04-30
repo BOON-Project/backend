@@ -51,6 +51,16 @@ exports.getUser = async (req, res, next) => {
     }
   };
 
+// GET USERS
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    next(err);
+  }
+};
+
 // LOGIN USER
 exports.loginUser = async (req, res, next) => {
     const { userName, password } = req.body;
