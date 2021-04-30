@@ -6,7 +6,9 @@ const mongoose = require('mongoose');
 const taskRoutes = require('./routes/taskRouter');
 const userRoutes = require('./routes/userRouter');
 const meRoutes = require('./routes/meRouter');
-const bcryptjs = require("bcryptjs")
+const skillRoutes = require("./routes/skillRouter")
+const cookieParser = require('cookie-parser');
+
 
 const cors = require('cors');
 const env = require('./config/config');
@@ -34,6 +36,7 @@ mongoose.connect(env.db, {
 app.use('/task', taskRoutes);
 app.use('/user', userRoutes);
 app.use('/me', meRoutes);
+app.use('/skill', skillRoutes);
 
 // Error handler
 app.use(function errorHandler(err, req, res, next) {
