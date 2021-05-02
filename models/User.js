@@ -13,15 +13,24 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
+<<<<<<< HEAD
     avatar: { type: String, required: false, default: "/statics/avatar.png" },
     skills: { type: Array, required: false },
   },
   {
+=======
+    avatar: { type: String, required: false, default: '/statics/avatar.png' },
+    skills: {type:Array, required:false},
+    rating:{type:Number, default:0}
+},
+{
+>>>>>>> a0493c67a197ed0387523abdfd0228396650839c
     versionKey: false,
     timestamps: true,
   }
 );
 
+<<<<<<< HEAD
 // UserSchema.methods.generateAuthToken = function () {
 //     // user
 //     const user = this;
@@ -48,6 +57,12 @@ const UserSchema = new Schema(
 //       return;
 //     }
 //   };
+=======
+
+const UserResultSchema = new Schema({
+  avgRating:Number
+})
+>>>>>>> a0493c67a197ed0387523abdfd0228396650839c
 
 UserSchema.pre("save", function () {
   const user = this;
