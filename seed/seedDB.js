@@ -57,8 +57,6 @@ mongoose.connect(env.db, {
 
     const userIds = usersSeeded.map((user) => user._id);
 
-
-
     
     //DELETE OLD SKILLS
      try{
