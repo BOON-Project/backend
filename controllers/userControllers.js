@@ -118,6 +118,7 @@ exports.editUser = async (req, res, next) => {
     const { id } = req.params;
     try {
       let editedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
+      console.log("ID", id, req.body, editedUser)
       res.json(editedUser);
     } catch (err) {
       next(err);
