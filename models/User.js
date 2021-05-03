@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const env = require('../config/config');
 const ourSuperSecretKey = env.jwt_key;
 
-
 const UserSchema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -14,7 +13,7 @@ const UserSchema = new Schema({
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
     avatar: { type: String, required: false, default: '/statics/avatar.png' },
-    skills: {type:Array, required:false},
+    skills: [{ type: Schema.Types.ObjectId, ref: 'Skill' }],
     rating:{type:Number, default:0}
 },
 {

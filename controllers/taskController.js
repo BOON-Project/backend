@@ -30,7 +30,6 @@ exports.updateTask = async (req, res, next) => {
 
     //Get the rating average
     const userRating = userTasks.reduce((acc,curr)=>{
-      console.log(curr.rating);
         acc+=curr.rating;
         acc = acc/userTasks.length;
         return acc
@@ -60,7 +59,7 @@ exports.getTask = async (req, res, next) => {
 
 
 exports.getTasks = async (req, res, next) => {
-  let allTasks = await Task.find().populate('userId'); 
+  let allTasks = await Task.find().populate('booner').populate('boonee').populate('skill'); 
   res.json(allTasks);
 };
 
