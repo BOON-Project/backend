@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 const bcryptjs = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
+// const ourSuperSecretKey = env.jwt_key;
 const env = require('../config/config');
-const ourSuperSecretKey = env.jwt_key;
+
 
 const UserSchema = new Schema({
     firstName: { type: String, required: true },
@@ -13,7 +14,16 @@ const UserSchema = new Schema({
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
     avatar: { type: String, required: false, default: '/statics/avatar.png' },
-    skills: [{ type: Schema.Types.ObjectId, ref: 'Skill' }],
+    skills: [
+      {
+         _id:false,
+         skillID:{
+           type: Schema.Types.ObjectId, 
+           ref: 'Skill'
+         },
+         boons: Number,
+       }
+    ],
     rating:{type:Number, default:0}
 },
 {
