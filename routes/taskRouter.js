@@ -1,20 +1,20 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 const {
   getTask,
   getTasks,
-  addTask, 
+  addTask,
   updateTask,
   deleteTask,
-  getUserTasks
-} = require('../controllers/taskController');
+  getUserTasks,
+} = require("../controllers/taskController");
 //const { validateTodo } = require('../middleware/validation');
 
 // /task
-router.route('/').get(getTasks).post( addTask );
+router.route("/").get(getTasks).post(addTask);
 
 // /task/:id
-router.route('/:id').get(getTask).put(updateTask).delete(deleteTask);
+router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
 
 module.exports = router;
