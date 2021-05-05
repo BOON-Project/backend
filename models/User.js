@@ -13,56 +13,19 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
-<<<<<<< HEAD
     avatar: { type: String, required: false, default: "/statics/avatar.png" },
     skills: { type: Array, required: false },
+    rating: { type: Number, default: 0 },
   },
   {
-=======
-    avatar: { type: String, required: false, default: '/statics/avatar.png' },
-    skills: {type:Array, required:false},
-    rating:{type:Number, default:0}
-},
-{
->>>>>>> a0493c67a197ed0387523abdfd0228396650839c
     versionKey: false,
     timestamps: true,
   }
 );
 
-<<<<<<< HEAD
-// UserSchema.methods.generateAuthToken = function () {
-//     // user
-//     const user = this;
-//     // additionally making sure, the JWT ticket itself will expire at some point (in this case in 3 hours)
-//     const token = jwt
-//       .sign({ _id: user._id.toString() }, ourSuperSecretKey, { expiresIn: '3h' })
-//       .toString();
-
-//     return token;
-//   };
-
-//   // Find By token
-// UserSchema.statics.findByToken = function (token) {
-//     const User = this;
-
-//     // Decode the cookie
-//     try {
-//       // if the token is valid then we get back whatever we
-//       // signed the cookie with  -> { _id: user._id.toString() }
-//       let decoded = jwt.verify(token, ourSuperSecretKey);
-//       console.log(`decoded`, decoded);
-//       return User.findOne({ _id: decoded._id });
-//     } catch (error) {
-//       return;
-//     }
-//   };
-=======
-
 const UserResultSchema = new Schema({
-  avgRating:Number
-})
->>>>>>> a0493c67a197ed0387523abdfd0228396650839c
+  avgRating: Number,
+});
 
 UserSchema.pre("save", function () {
   const user = this;
