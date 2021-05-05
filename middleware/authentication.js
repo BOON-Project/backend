@@ -1,24 +1,26 @@
 const customError = require("../helpers/customError");
-const User = require('../models/User');
+const User = require("../models/User");
 
-exports.authentication = async(req, res, next)=>{
+exports.authentication = async (req, res, next) => {
+  try {
+    //grab the token from request
+    const token = req.headers.token;
+
+    if (!token) return next(customError("No token found! Please Login"));
+
+    // validate the received token
+
     try {
-        
-        //gonna use cookies in future!
-        const token = req.cookies.token;
-
-        //then we validate cookie. next search user with that COOKIE
-        const user = await User.findByToken(token);
-
-        console.log("token", token, "user", user);
-        //if token is not valid, then an error shows up
-        if(!user) next(customError("Cannot validate"));
-
-        //if token is valid, we're ready to go =>
-        req.user = user;
-        next();
-
+      const user = await User.verifyToken(token);
+      req.user = user;
+      next();
     } catch (error) {
-        next(error);
+      // if the token is corrupted, then throw an unauthorized error
+      return next(customError(error.message, 401));
     }
-}
+
+    //if token is not valid, then an error shows up
+  } catch (error) {
+    next(error);
+  }
+};
