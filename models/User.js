@@ -3,7 +3,12 @@ const { Schema, model } = mongoose;
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const env = require("../config/config");
-const ourSuperSecretKey = env.jwt_key;
+
+// JWT Secret to create and validate tokens
+const ourSuperSecretKey = env.jwtSecret;
+console.log("====================================");
+console.log({ ourSuperSecretKey });
+console.log("====================================");
 
 const UserSchema = new Schema(
   {
@@ -20,6 +25,12 @@ const UserSchema = new Schema(
   {
     versionKey: false,
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: (docOriginal, docToReturn) => {
+        delete docToReturn.password;
+      },
+    },
   }
 );
 
@@ -34,6 +45,26 @@ UserSchema.pre("save", function () {
     user.password = bcryptjs.hashSync(user.password, 8); // 8 = salting rounds
   }
 });
+
+// GENERATE TOKEN
+
+UserSchema.methods.generateAuthToken = function () {
+  console.log(this);
+  const user = this;
+  const token = jwt
+    .sign({ _id: user._id.toString() }, ourSuperSecretKey, { expiresIn: "3h" })
+    .toString();
+
+  return token;
+};
+
+// FIND BY TOKEN
+
+UserSchema.statics.verifyToken = function (token) {
+  let decodedUser = jwt.verify(token, ourSuperSecretKey);
+  console.log(`decoded`, decodedUser);
+  return decodedUser;
+};
 
 const User = model("User", UserSchema);
 

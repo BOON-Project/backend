@@ -17,7 +17,11 @@ app.listen(PORT, () => {
 });
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: env.frontendOrigin || "http://localhost:3000", // frontend URL should be configurable
+  })
+);
 app.get("/", (req, res) => {
   res.send("Hello");
 });
