@@ -44,9 +44,5 @@ app.use("/skill", skillRoutes);
 
 // Error handler
 app.use(function errorHandler(err, req, res, next) {
-  res.status(err.status || 500).send({
-    error: {
-      message: err.message,
-    },
-  });
+  res.status(err.status || 500).send({ error: err.message });
 });

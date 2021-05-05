@@ -45,6 +45,7 @@ exports.userValidationRules = ()=>{
     ];
 };
 
+
 const mergeErrors = (loadErrors) => {
     return loadErrors.map((error) => `${error.param}: ${error.msg}`).join('. ');
   };
@@ -55,9 +56,9 @@ exports.userValidationErrorHandling = (req, res, next)=>{
     if(errors.isEmpty())
     return next();
 
-    const loadErrors = errors.array();
+    const loadErrors = array();
     const mergedErrors = mergeErrors(loadErrors);
-
+    
     let error = new Error(mergedErrors);
     error.status = 422; 
     next(error);

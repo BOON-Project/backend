@@ -47,7 +47,8 @@ exports.getUser = async (req, res, next) => {
 // GET USERS
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate("skills.skillID");
+    console.log(users);
     res.json(users);
   } catch (err) {
     next(err);
@@ -112,7 +113,7 @@ exports.deleteUser = async (req, res, next) => {
 exports.editUser = async (req, res, next) => {
   const { id } = req.params;
   try {
-    let editedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
+    let editedUser = await User.findByIdAndUpdate(id, req.body);
     res.json(editedUser);
   } catch (err) {
     next(err);

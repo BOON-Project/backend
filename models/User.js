@@ -19,7 +19,16 @@ const UserSchema = new Schema(
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
     avatar: { type: String, required: false, default: "/statics/avatar.png" },
-    skills: { type: Array, required: false },
+    skills: [
+      {
+        _id: false,
+        skillID: {
+          type: Schema.Types.ObjectId,
+          ref: "Skill",
+        },
+        boons: Number,
+      },
+    ],
     rating: { type: Number, default: 0 },
   },
   {

@@ -17,31 +17,30 @@ exports.updateTask = async (req, res, next) => {
   const {id} = req.params
   const {status, rating} = req.body;
   try {
+
+    //First update the task
     if(!rating){
         let updatedTask = await Task.findByIdAndUpdate(id, { status})
     }
     let updatedTask = await Task.findByIdAndUpdate(id, { status, rating})
-        // res.json(updatedTask)
 
-
-    //Update also the user rating
+    //Get all the tasks where the user was booner
     const booner = updatedTask.booner;
-    console.log(booner);
-
     const userTasks = await Task.find({booner})
 
-    const updatedRating = userTasks.reduce((acc,curr)=>{
-      console.log(curr.rating);
+    //Get the rating average
+    const userRating = userTasks.reduce((acc,curr)=>{
         acc+=curr.rating;
         acc = acc/userTasks.length;
         return acc
     },0)
 
-  const taskRating = await User.findByIdAndUpdate(booner, {
-    rating: updatedRating
-  })
-  // const userTodos = await Task.find( {booner});
-  res.json(taskRating);
+    //Update user rating
+    const userUpdated = await User.findByIdAndUpdate(booner, {
+      rating: userRating
+    })
+
+    res.json(userUpdated);
   } catch (err) {
       next(err);
     }
@@ -60,7 +59,7 @@ exports.getTask = async (req, res, next) => {
 
 
 exports.getTasks = async (req, res, next) => {
-  let allTasks = await Task.find().populate('userId'); 
+  let allTasks = await Task.find().populate('booner').populate('boonee').populate('skill'); 
   res.json(allTasks);
 };
 
