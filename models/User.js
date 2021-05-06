@@ -16,6 +16,7 @@ const UserSchema = new Schema(
 		birthday: { type: Date, required: true },
 		password: { type: String, required: true },
 		avatar: { type: String, required: false, default: "/statics/avatar.png" },
+		bio: {type: String, required: false, min:20, max:100},
 		skills: [
 			{
 				_id: false,
