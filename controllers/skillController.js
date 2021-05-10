@@ -1,10 +1,17 @@
 const Skill = require("../models/Skill");
+const User = require("../models/User")
 
 //GET USER SKILLS
 exports.getUserSkills = async (req, res, next) => {
   const userId = req.user._id; // read user ID from authenticated user
   const userTodos = await Skill.find({ userId });
   res.json(userTodos);
+};
+
+exports.getUsersBySkill = async (req, res, next) => {
+  const skillId = req.skill._id
+  const usersWithSkill = await User.find({ skillId });
+  res.json(usersWithSkill)
 };
 
 //   GET ALL SKILLS
