@@ -15,7 +15,12 @@ const UserSchema = new Schema(
     email: { type: String, required: true, unique: true },
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
-    avatar: { type: String, required: false, default: "/statics/avatar.png" },
+    avatar: {
+      type: String,
+      required: false,
+      default: "/images/BoonAvatar.svg",
+    },
+    bio: { type: String, required: false, min: 20, max: 100, default: "" },
     skills: [
       {
         _id: false,
@@ -27,6 +32,7 @@ const UserSchema = new Schema(
       },
     ],
     rating: { type: Number, default: 0 },
+    boons: { type: Number, required: false },
   },
   {
     versionKey: false,

@@ -99,15 +99,15 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
-// LOGOUT USER - TODO
-// exports.logoutUser = async (req, res, next) => {
-//     res.clearCookie('token', {
-//       sameSite: process.env.NODE_ENV == 'production' ? 'None' : 'lax',
-//       secure: process.env.NODE_ENV == 'production' ? true : false, //http on localhost, https on production
-//       httpOnly: true,
-//     }); // clear the cookie in the browser
-//     res.json({ message: 'Logged you out successfully' });
-//   };
+// LOGOUT USER
+exports.logoutUser = async (req, res, next) => {
+  res.clearCookie("token", {
+    sameSite: process.env.NODE_ENV == "production" ? "None" : "lax",
+    secure: process.env.NODE_ENV == "production" ? true : false, //http on localhost, https on production
+    httpOnly: true,
+  }); // clear the cookie in the browser
+  res.json({ message: "Logged you out successfully" });
+};
 
 // EDIT USER
 exports.editUser = async (req, res, next) => {
