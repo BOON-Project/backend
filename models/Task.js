@@ -9,8 +9,8 @@ const TaskSchema = new Schema(
 		message: { type: String, required: true, max: 400 },
 		status: { type: String, default: "pending" },
 		date: { type: Date, required: true },
-		boonee: { type: Schema.Types.ObjectId, ref: "User" },
-		booner: { type: Schema.Types.ObjectId, ref: "User" },
+		boonee: { type: Schema.Types.ObjectId, ref: "User", required: true },
+		booner: { type: Schema.Types.ObjectId, ref: "User", required: true },
 		rating: { type: Number, required: false, default: 0 },
 	},
 	{
