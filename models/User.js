@@ -6,6 +6,7 @@ const env = require("../config/config");
 
 // JWT Secret to create and validate tokens
 const ourSuperSecretKey = env.jwtSecret;
+console.log(ourSuperSecretKey);
 
 const UserSchema = new Schema(
   {
