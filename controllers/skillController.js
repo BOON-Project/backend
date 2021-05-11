@@ -1,15 +1,30 @@
 const Skill = require("../models/Skill");
+const User = require("../models/User");
 
-//GET USER SKILLS
+//GET THE LGGED IN USER'S SKILLS
 exports.getUserSkills = async (req, res, next) => {
   const userId = req.user._id; // read user ID from authenticated user
   const userTodos = await Skill.find({ userId });
   res.json(userTodos);
 };
 
+// GET ALL THE USERS WITH A CERTAIN SKILL
+exports.getUsersBySkill = async (req, res, next) => {
+  try {
+    const { skillId } = req.params;
+    console.log("helo me find params", req.params);
+    const users = await User.find({
+      skills: { $elemMatch: { "skillID._id": skillId } },
+    });
+    res.json(users);
+  } catch (err) {
+    next(err);
+  }
+};
+
 //   GET ALL SKILLS
 exports.getSkills = async (req, res, next) => {
-  let skillsAll = await Skill.find()
+  let skillsAll = await Skill.find();
   console.log(skillsAll);
   res.json(skillsAll);
 };
