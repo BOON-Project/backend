@@ -20,7 +20,7 @@ const UserSchema = new Schema(
       required: false,
       default: "/images/BoonAvatar.svg",
     },
-    bio: { type: String, required: false, min: 20, max: 100, default: "" },
+    bio: { type: String, required: false, min: 20, max: 300, default: "" },
     skills: [
       {
         _id: false,
