@@ -7,7 +7,7 @@ exports.addUser = async (req, res, next) => {
   try {
     const existingUserName = await User.findOne({
       userName: userData.userName,
-    });
+    }).populate("skills.skillID");
     const existingEmail = await User.findOne({ email: userData.email });
     if (existingUserName) {
       let error = new Error(`${userData.userName} already exists`);
@@ -60,7 +60,9 @@ exports.loginUser = async (req, res, next) => {
   const { userName, password } = req.body;
   try {
     // grab me a user from DB by email & password
-    const userFound = await User.findOne({ userName });
+    const userFound = await User.findOne({ userName }).populate(
+      "skills.skillID"
+    );
 
     // handle user not found by given credentials
     if (!userFound) {
