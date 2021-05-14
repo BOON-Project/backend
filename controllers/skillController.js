@@ -15,7 +15,7 @@ exports.getUsersBySkill = async (req, res, next) => {
     console.log("helo me find params", req.params);
     const users = await User.find({
       skills: { $elemMatch: { skillID: skillId } },
-    });
+    }).populate("skills.skillID");
     res.json(users);
   } catch (err) {
     next(err);
