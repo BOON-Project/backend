@@ -18,7 +18,6 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     avatar: {
       type: String,
-      required: false,
       default: "/images/BoonAvatar.svg",
     },
     bio: { type: String, required: false, min: 20, max: 300, default: "" },
@@ -33,7 +32,7 @@ const UserSchema = new Schema(
       },
     ],
     rating: { type: Number, default: 0 },
-    boons: { type: Number, required: false },
+    boons: { type: Number },
   },
   {
     versionKey: false,

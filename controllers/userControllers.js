@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcryptjs = require("bcryptjs");
+const cloudinary = require("cloudinary").v2;
 
 // SIGNUP
 exports.addUser = async (req, res, next) => {
@@ -113,10 +114,27 @@ exports.logoutUser = async (req, res, next) => {
 
 // EDIT USER
 exports.editUser = async (req, res, next) => {
+  // // console.log(avatar && avatar.substring(0, 20));
+
   const { id } = req.params;
+  const body = req.body;
   try {
-    let editedUser = await User.findByIdAndUpdate(id, req.body);
-    res.json(editedUser);
+    // => will not trigger the pre save hook
+    // let userUpdated = await User.findByIdAndUpdate(id, req.body, { new: true });
+    // find the user first
+    let user = await User.findById(id);
+    // update the user fields
+    if (!body.password) {
+      delete body.password;
+    }
+    if (body.avatar) {
+      let uploadResult = await cloudinary.uploader.upload(body.avatar);
+      const fileURLOnCloudinary = uploadResult.secure_url;
+      body.avatar = fileURLOnCloudinary;
+    }
+    Object.assign(user, body);
+    const userUpdated = await user.save(); // => this will trigger the pre save hook
+    res.json(userUpdated);
   } catch (err) {
     next(err);
   }
