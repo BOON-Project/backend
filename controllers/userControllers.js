@@ -114,15 +114,13 @@ exports.logoutUser = async (req, res, next) => {
 
 // EDIT USER
 exports.editUser = async (req, res, next) => {
-  // // console.log(avatar && avatar.substring(0, 20));
-
   const { id } = req.params;
   const body = req.body;
   try {
     // => will not trigger the pre save hook
     // let userUpdated = await User.findByIdAndUpdate(id, req.body, { new: true });
     // find the user first
-    let user = await User.findById(id);
+    let user = await User.findById(id).populate("skills.skillID");
     // update the user fields
     if (!body.password) {
       delete body.password;
@@ -133,7 +131,8 @@ exports.editUser = async (req, res, next) => {
       body.avatar = fileURLOnCloudinary;
     }
     Object.assign(user, body);
-    const userUpdated = await user.save(); // => this will trigger the pre save hook
+    const userUpdated = await user.save();
+    // => this will trigger the pre save hook
     res.json(userUpdated);
   } catch (err) {
     next(err);
