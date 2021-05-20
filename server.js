@@ -16,7 +16,7 @@ app.listen(PORT, () => {
   console.log(`app is listening on port: ${PORT}`);
 });
 
-app.use(express.json());
+app.use(express.json({ limit: "5mb" }));
 app.use(
   cors({
     origin: env.frontendOrigin || "http://localhost:3000", // frontend URL should be configurable
@@ -44,5 +44,6 @@ app.use("/skill", skillRoutes);
 
 // Error handler
 app.use(function errorHandler(err, req, res, next) {
+  console.log(err);
   res.status(err.status || 500).send({ error: err.message });
 });
