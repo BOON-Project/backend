@@ -46,6 +46,13 @@ const UserSchema = new Schema(
   }
 );
 
+// adding 5 max length for skills array
+
+UserSchema.pre("validate", function (next) {
+  if (this.skills.length > 5) throw "skills exceeds maximum array size (5)!";
+  next();
+});
+
 const UserResultSchema = new Schema({
   avgRating: Number,
 });

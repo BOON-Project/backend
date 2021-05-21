@@ -131,8 +131,8 @@ exports.editUser = async (req, res, next) => {
       body.avatar = fileURLOnCloudinary;
     }
     Object.assign(user, body);
-    const userUpdated = await user.save();
-    // => this will trigger the pre save hook
+    const userSkillsMax = await user.validate();
+    const userUpdated = await user.save(); // => this will trigger the pre save hook
     res.json(userUpdated);
   } catch (err) {
     next(err);
