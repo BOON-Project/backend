@@ -1,12 +1,16 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { authentication } = require('../middleware/authentication');
-const { authUser } = require('../controllers/userControllers.js');
-const { getUserTasks } = require("../controllers/taskController")
+const { authentication } = require("../middleware/authentication");
+const { authUser } = require("../controllers/userControllers.js");
+const {
+    getUserTasks,
+    getUserTasksOffered,
+    getUserTasksReceived,
+} = require("../controllers/taskController");
 
-// /me/:id
-router.route('/:id').get(getUserTasks);
+// /me
+router.route("/offered").get(authentication, getUserTasksOffered);
+router.route("/received").get(authentication, getUserTasksReceived);
 
-
-router.route('/auth').post(authentication, authUser); // full route path: /me/auth
+router.route("/auth").post(authentication, authUser); // full route path: /me/auth
 module.exports = router;
