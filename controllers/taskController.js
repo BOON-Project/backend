@@ -48,7 +48,10 @@ exports.updateTask = async (req, res, next) => {
 exports.getTask = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const task = await Task.findById(id);
+    const task = await Task.findById(id)
+      .populate("booner")
+      .populate("boonee")
+      .populate("skill");
     res.json(task);
   } catch (err) {
     next(err);
