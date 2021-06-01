@@ -13,7 +13,7 @@ BOON is our final project for the one-year web development course at DCI.
 ##### React APP
 ##### Redux
 ##### MongoDB
-##### Bulma - SCSS - Tailwind CSS
+##### Material UI
 
 # Getting started
 
