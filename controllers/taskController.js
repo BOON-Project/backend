@@ -1,5 +1,6 @@
 const Task = require("../models/Task");
 const User = require("../models/User");
+const Messages = require("../models/Messages");
 
 // ADD - this point it should contain one userID
 exports.addTask = async (req, res, next) => {
@@ -48,7 +49,10 @@ exports.updateTask = async (req, res, next) => {
 exports.getTask = async (req, res, next) => {
     const { id } = req.params;
     try {
-        const task = await Task.findById(id);
+        const task = await Task.findById(id)
+            .populate("booner")
+            .populate("boonee")
+            .populate("skill");
         res.json(task);
     } catch (err) {
         next(err);
@@ -102,7 +106,10 @@ exports.getUserTasksOffered = async (req, res, next) => {
     const booner = _id;
     console.log(req.user);
 
-    const userTasks = await Task.find({ booner });
+    const userTasks = await Task.find({ booner })
+        .populate("booner")
+        .populate("boonee")
+        .populate("skill");
     res.json(userTasks);
 };
 
@@ -111,6 +118,9 @@ exports.getUserTasksReceived = async (req, res, next) => {
     const boonee = _id;
     console.log(req.user);
 
-    const userTasks = await Task.find({ boonee });
+    const userTasks = await Task.find({ boonee })
+        .populate("booner")
+        .populate("boonee")
+        .populate("skill");
     res.json(userTasks);
 };

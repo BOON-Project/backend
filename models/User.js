@@ -48,6 +48,23 @@ const UserSchema = new Schema(
     }
 );
 
+// Birthday virtual to beautify Date
+
+UserSchema.virtual("BDay").get(function () {
+    const date = this.birthday;
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    if (d < 10) {
+        d = "0" + d;
+    }
+    if (m < 10) {
+        m = "0" + m;
+    }
+
+    return `${y}-${m}-${d}`;
+});
+
 // adding 5 max length for skills array
 
 UserSchema.pre("validate", function (next) {
