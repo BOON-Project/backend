@@ -9,12 +9,16 @@ const {
   deleteTask,
   getUserTasks,
 } = require("../controllers/taskController");
+
+const { getMessagesbyTask } = require("../controllers/messagesController");
 //const { validateTodo } = require('../middleware/validation');
 
-// /task
+// /tasks
 router.route("/").get(getTasks).post(addTask);
 
-// /task/:id
+// /tasks/:id
 router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
+
+router.route("/:id/messages").get(getMessagesbyTask);
 
 module.exports = router;

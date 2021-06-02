@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 //require("dotenv").config();
 const taskRoutes = require("./routes/taskRouter");
+const messagesRoutes = require("./routes/messagesRouter");
 const userRoutes = require("./routes/userRouter");
 const meRoutes = require("./routes/meRouter");
 const skillRoutes = require("./routes/skillRouter");
@@ -41,10 +42,11 @@ mongoose
     .catch((err) => console.log("[ERROR] DB connection failed", err));
 
 //Here come routes
-app.use("/task", taskRoutes);
-app.use("/user", userRoutes);
+app.use("/tasks", taskRoutes);
+app.use("/users", userRoutes);
 app.use("/me", meRoutes);
-app.use("/skill", skillRoutes);
+app.use("/skills", skillRoutes);
+app.use("/messages", messagesRoutes);
 
 // Error handler
 app.use(function errorHandler(err, req, res, next) {
