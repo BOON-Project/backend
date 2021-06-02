@@ -18,14 +18,22 @@ exports.updateTask = async (req, res, next) => {
   const { id } = req.params;
   const { status, rating } = req.body;
   try {
+    let updatedTask;
+
     //First update the task
     if (!rating) {
-      let updatedTask = await Task.findByIdAndUpdate(id, { status });
+      updatedTask = await Task.findByIdAndUpdate(id, { status }, { new: true });
+    } else {
+      updatedTask = await Task.findByIdAndUpdate(
+        id,
+        { status, rating },
+        { new: true }
+      );
     }
-    let updatedTask = await Task.findByIdAndUpdate(id, { status, rating });
 
     //Get all the tasks where the user was booner
     const booner = updatedTask.booner;
+    // const status = updatedTask.status;
     const userTasks = await Task.find({ booner });
 
     //Get the rating average
@@ -36,29 +44,31 @@ exports.updateTask = async (req, res, next) => {
     }, 0);
 
     //Update user rating
-    const userUpdated = await User.findByIdAndUpdate(booner, {
-      rating: userRating,
-    });
+    const userUpdated = await User.findByIdAndUpdate(
+      booner,
+      {
+        rating: userRating,
+      },
+      { new: true }
+    );
 
-    res.json(userUpdated);
+    res.json(updatedTask);
   } catch (err) {
     next(err);
   }
 };
 
 exports.getTask = async (req, res, next) => {
-
-    const { id } = req.params;
-    try {
-        const task = await Task.findById(id)
-            .populate("booner")
-            .populate("boonee")
-            .populate("skill");
-        res.json(task);
-    } catch (err) {
-        next(err);
-    }
-
+  const { id } = req.params;
+  try {
+    const task = await Task.findById(id)
+      .populate("booner")
+      .populate("boonee")
+      .populate("skill");
+    res.json(task);
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getTasks = async (req, res, next) => {
@@ -104,27 +114,25 @@ exports.getUserTasks = async (req, res, next) => {
 };
 
 exports.getUserTasksOffered = async (req, res, next) => {
+  const { _id } = req.user;
+  const booner = _id;
+  console.log(req.user);
 
-    const { _id } = req.user;
-    const booner = _id;
-    console.log(req.user);
-
-    const userTasks = await Task.find({ booner })
-        .populate("booner")
-        .populate("boonee")
-        .populate("skill");
-    res.json(userTasks);
+  const userTasks = await Task.find({ booner })
+    .populate("booner")
+    .populate("boonee")
+    .populate("skill");
+  res.json(userTasks);
 };
 
 exports.getUserTasksReceived = async (req, res, next) => {
-    const { _id } = req.user;
-    const boonee = _id;
-    console.log(req.user);
+  const { _id } = req.user;
+  const boonee = _id;
+  console.log(req.user);
 
-    const userTasks = await Task.find({ boonee })
-        .populate("booner")
-        .populate("boonee")
-        .populate("skill");
-    res.json(userTasks);
-
+  const userTasks = await Task.find({ boonee })
+    .populate("booner")
+    .populate("boonee")
+    .populate("skill");
+  res.json(userTasks);
 };
