@@ -6,7 +6,7 @@ const {
     addMessage,
 } = require("../controllers/messagesController");
 
-// /skill/:id
+// /messages
 router.route("/").post(addMessage);
 
 module.exports = router;
