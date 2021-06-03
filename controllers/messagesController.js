@@ -6,7 +6,9 @@ exports.getMessagesbyTask = async (req, res, next) => {
     console.log(req.params);
     const id = req.params.id;
 
-    const taskMessages = await Messages.find({ task: id });
+    const taskMessages = await Messages.find({ task: id })
+    .populate("senderId")
+    .populate("receiverId")
 
     res.json(taskMessages);
 };
