@@ -51,18 +51,18 @@ const UserSchema = new Schema(
 // Birthday virtual to beautify Date
 
 UserSchema.virtual("BDay").get(function () {
-    const date = this.birthday;
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    if (d < 10) {
-        d = "0" + d;
-    }
-    if (m < 10) {
-        m = "0" + m;
-    }
+  const date = this.birthday;
+  var d = date.getDate();
+  var m = date.getMonth();
+  var y = date.getFullYear();
+  if (d < 10) {
+    d = "0" + d;
+  }
+  if (m < 10) {
+    m = "0" + m;
+  }
 
-    return `${y}-${m}-${d}`;
+  return `${y}-${m}-${d}`;
 });
 
 // adding 5 max length for skills array
@@ -93,7 +93,7 @@ UserSchema.methods.generateAuthToken = function () {
   const user = this;
   const token = jwt
     .sign({ _id: user._id.toString() }, ourSuperSecretKey, {
-      expiresIn: "3h",
+      expiresIn: "100h",
     })
     .toString();
 
