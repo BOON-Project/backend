@@ -93,7 +93,7 @@ UserSchema.methods.generateAuthToken = function () {
   const user = this;
   const token = jwt
     .sign({ _id: user._id.toString() }, ourSuperSecretKey, {
-      expiresIn: "100h",
+      expiresIn: "24h",
     })
     .toString();
 
