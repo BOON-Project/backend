@@ -17,6 +17,7 @@ const UserSchema = new Schema(
     birthday: { type: Date, required: true },
     password: { type: String, required: true },
     location: { type: Object, default: { latitude: 0, longitude: 0 } },
+    boonsHave: { type: Number, required: true },
 
     avatar: {
       type: String,
