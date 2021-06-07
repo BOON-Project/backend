@@ -13,7 +13,7 @@ exports.getMessagesbyTask = async (req, res, next) => {
     res.json(taskMessages);
 };
 
-exports.addMessage = async (req, res, next) => {
+exports.addMessagesbyTask = async (req, res, next) => {
     const info = req.body;
     try {
         const message = await Messages.create(info);
@@ -22,3 +22,4 @@ exports.addMessage = async (req, res, next) => {
         next(err);
     }
 };
+
