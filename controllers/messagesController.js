@@ -13,11 +13,14 @@ exports.getMessagesbyTask = async (req, res, next) => {
   res.json(taskMessages);
 };
 
-exports.addMessage = async (req, res, next) => {
+exports.addMessagesbyTask = async (req, res, next) => {
   const info = req.body;
   try {
     const message = await Messages.create(info);
-    res.json(message);
+    const msg = await Messages.find({ _id: message._id })
+      .populate("senderId")
+      .populate("receiverId");
+    res.json(msg);
   } catch (err) {
     next(err);
   }
