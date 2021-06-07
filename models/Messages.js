@@ -7,11 +7,6 @@ const MessagesSchema = new Schema(
     task: { type: Schema.Types.ObjectId, required: true, ref: "Task" },
     msg: { type: String, required: true },
     senderId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    receiverId: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
-    },
   },
   {
     versionKey: false,

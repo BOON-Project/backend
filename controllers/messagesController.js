@@ -8,8 +8,7 @@ exports.getMessagesbyTask = async (req, res, next) => {
 
   const taskMessages = await Messages.find({ task: id })
     .populate("senderId")
-    .populate("receiverId")
-    .populate("createdAt");
+    .populate("receiverId");
 
   res.json(taskMessages);
 };
