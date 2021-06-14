@@ -29,29 +29,31 @@ exports.updateTask = async (req, res, next) => {
 
     //Get all the tasks where the user was booner
     const booner = updatedTask.booner;
+    const boonerId = updatedTask.booner._id;
     // const status = updatedTask.status;
     const userTasks = await Task.find({ booner });
 
     //Get the rating average
-    // const userRating = userTasks.reduce((acc, curr) => {
-    //   acc += curr.rating;
-    //   acc = acc / userTasks.length;
-    //   return acc;
-    // }, 0);
+    const userRating = userTasks.reduce((acc, curr) => {
+      acc += curr.rating;
+      acc = acc / userTasks.length;
+      return acc;
+    }, 0);
 
-    const userRatingFunction = () => {
-      const rateTotal = userTasks
-        .map((item) => item.rating)
-        .reduce((acc, cur) => acc + cur, 0);
-      const ave = rateTotal / userTasks.length;
+    // const userRatingFunction = () => {
+    //   const rateTotal = userTasks
+    //     .filter((item) => item.rating > 0)
+    //     .map((item) => item.rating)
+    //     .reduce((acc, cur) => acc + cur, 0);
+    //   const ave = rateTotal / userTasks.length;
 
-      return ave;
-    };
-    const userRating = userRatingFunction();
+    //   return ave;
+    // };
+    //const userRating = userRatingFunction();
 
     //Update user rating
     const userUpdated = await User.findByIdAndUpdate(
-      booner,
+      boonerId,
       {
         rating: userRating,
       },
