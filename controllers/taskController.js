@@ -1,96 +1,142 @@
-const Task = require('../models/Task');
+const Task = require("../models/Task");
+const User = require("../models/User");
+const Messages = require("../models/Messages");
 
 // ADD - this point it should contain one userID
 exports.addTask = async (req, res, next) => {
     const info = req.body;
     try {
-      const task = await Task.create(info);
-      res.json(task);
+        const task = await Task.create(info);
+        res.json(task);
     } catch (err) {
-      next(err);
+        next(err);
     }
 };
 
 // ADD THESE STATUSES: accepted, rejected, finished and confirmed
-
-// PENDING TASK 
-  //- someone chooses this task and gets in touch with the task taskee
-  //- should include multiple ids: taskee and tasker
-exports.pendingTask 
-
-// REJECTED TASK - the taskee refuses the offer
-  // - should it be deleted?????????????????????
-exports.rejectedTask = async (req, res, next) => {
-  const {id} = req.params;
-  try {
-      let taskRejected = await Task.findByIdAndUpdate(id, 
-          { status: "rejected"}
-      )
-      res.json(taskRejected)
-  } catch (err) {
-      next(err);
-    }
-};
-
-// ACCEPTED TASK - success!
-exports.acceptedTask = async (req, res, next) => {
-  const {id} = req.params;
-  try {
-      let taskAccepted = await Task.findByIdAndUpdate(id, 
-          { status: "accepted"}
-      )
-      res.json(taskAccepted)
-  } catch (err) {
-      next(err);
-    }
-};
-
-// FINISHED TASK 
-  // -taskee cofirms that she/he/they did the task
-exports.finishedTask
-
-// CONFIRMED TASK
-  // - both status and rating changes
-  // - task taker confirms the task
-exports.confirmedTask
-
 exports.updateTask = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    let updatedTask = await Task.findByIdAndUpdate(id, req.body, { new: true });
-    res.json(updatedTask);
-  } catch (err) {
-    next(err);
-  }
+    const { id } = req.params;
+    const body = req.body;
+    try {
+        //First update the task
+
+        const updatedTask = await Task.findByIdAndUpdate(id, body, {
+            new: true,
+        });
+
+        //Get all the tasks where the user was booner
+        const booner = updatedTask.booner;
+        // const status = updatedTask.status;
+        const userTasks = await Task.find({ booner });
+
+        //Get the rating average
+        // const userRating = userTasks.reduce((acc, curr) => {
+        //   acc += curr.rating;
+        //   acc = acc / userTasks.length;
+        //   return acc;
+        // }, 0);
+
+        const userRatingFunction = () => {
+            const userTasksRated = userTasks.filter((item) => item.rating > 0);
+            const rateTotal = userTasksRated
+                .map((item) => item.rating)
+                .reduce((acc, cur) => acc + cur, 0);
+            const ave = rateTotal / userTasksRated.length;
+
+            return ave;
+        };
+        const userRating = userRatingFunction();
+
+        //Update user rating
+        const userUpdated = await User.findByIdAndUpdate(
+            booner,
+            {
+                rating: userRating,
+            },
+            { new: true }
+        );
+
+        res.json(updatedTask);
+    } catch (err) {
+        next(err);
+    }
 };
 
 exports.getTask = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const task = await Task.findById(id);
-    res.json(task);
-
-  } catch (err) {
-    next(err); 
-  }
+    const { id } = req.params;
+    try {
+        const task = await Task.findById(id)
+            .populate("booner")
+            .populate("boonee")
+            .populate("skill");
+        res.json(task);
+    } catch (err) {
+        next(err);
+    }
 };
 
-
-//CHECK THIS BECEUSE I AM NOT SURE IF THIS DOES WHAT I WANT IT TO
 exports.getTasks = async (req, res, next) => {
-  let allTasks = await Task.find().populate('userId'); // grab user document and replace ID by user data
-  res.json(allTasks);
+    let allTasks = await Task.find()
+        .populate("booner")
+        .populate("boonee")
+        .populate("skill");
+    res.json(allTasks);
 };
-
 
 exports.deleteTask = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    let taskToDelete = await Task.findByIdAndDelete(id);
-    res.json(taskToDelete);
-  } catch (err) {
-    let error = new Error(`Todo with ID ${id} does not exist`);
-    error.status = 400;
-    next(error);
-  }
+    const { id } = req.params;
+    try {
+        let taskToDelete = await Task.findByIdAndDelete(id);
+        res.json(taskToDelete);
+    } catch (err) {
+        let error = new Error(`Todo with ID ${id} does not exist`);
+        error.status = 400;
+        next(error);
+    }
+};
+
+exports.getUserTasks = async (req, res, next) => {
+    const { id } = req.params;
+    const booner = id;
+    console.log(req.params);
+
+    const userTasks = await Task.find({ booner });
+
+    const updatedRating = userTasks.reduce((acc, curr) => {
+        console.log(curr.rating);
+        acc += curr.rating;
+        acc = acc / userTasks.length;
+        console.log(acc);
+        return acc;
+    }, 0);
+
+    const taskRating = await User.findByIdAndUpdate(booner, {
+        rating: updatedRating,
+    });
+    // const userTodos = await Task.find( {booner});
+    res.json(taskRating);
+};
+
+exports.getUserTasksOffered = async (req, res, next) => {
+    const { _id } = req.user;
+    const booner = _id;
+    console.log(req.user);
+
+    const userTasks = await Task.find({ booner })
+        .populate("booner")
+        .populate("boonee")
+        .populate("skill");
+    res.json(userTasks);
+};
+
+exports.getUserTasksReceived = async (req, res, next) => {
+    const { _id } = req.user;
+    const boonee = _id;
+    console.log(req.user);
+
+    const userTasks = await Task.find({ boonee })
+        .populate("booner")
+        .populate("boonee")
+        .populate("skill");
+    res.json(userTasks);
 };

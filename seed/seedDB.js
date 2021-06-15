@@ -4,23 +4,40 @@ const Skill = require("../models/Skill");
 const Task = require("../models/Task");
 const faker = require("faker");
 const env = require("../config/config");
+const { random } = require("faker");
 
-mongoose.connect(env.db, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: true,
-    useCreateIndex: true
-})
-.then(() => console.log('Connection to db established'))
-.catch((err) => console.log('[ERROR] DB connection failed', err));
+mongoose
+    .connect(env.db, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: true,
+        useCreateIndex: true,
+    })
+    .then(() => console.log("Connection to db established"))
+    .catch((err) => console.log("[ERROR] DB connection failed", err));
 
 (async function () {
+    let skillsDB = [
+        "Petsitting",
+        "Bricolage",
+        "Painting",
+        "Photography",
+        "Massage",
+        "Hair Styling",
+        "Video",
+        "Brewing",
+        "Jewellery",
+        "Cooking",
+        "Coding",
+        "Languages",
+        "Local Guide",
+    ];
 
     //DELETE OLD USERS
-    try{
+    try {
         await User.deleteMany({});
         console.log("Old users deleted");
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 
@@ -28,14 +45,16 @@ mongoose.connect(env.db, {
 
     const userPromises = Array(10)
         .fill(null)
-        .map(()=>{
+        .map(() => {
             const userData = {
                 firstName: faker.name.firstName(),
-                lastName:faker.name.lastName(),
+                lastName: faker.name.lastName(),
                 userName: faker.internet.userName(),
                 email: faker.internet.email(),
                 birthday: faker.date.past(),
-                password: "01234",
+                password: "01234Ab1#",
+                skills: random.arrayElement(skillsDB),
+                bio: "",
             };
 
             const user = new User(userData);
@@ -44,29 +63,29 @@ mongoose.connect(env.db, {
 
     let usersSeeded;
 
-    try{
+    try {
         usersSeeded = await Promise.all(userPromises);
         console.log("We stored 10 users in the DB");
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 
     const userIds = usersSeeded.map((user) => user._id);
 
     //DELETE OLD SKILLS
-     try{
+    try {
         await Skill.deleteMany({});
         console.log("Old skills deleted");
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 
     const skillPromises = Array(10)
         .fill(null)
-        .map(()=>{
+        .map(() => {
             const skillData = {
-                name: faker.commerce.product(),
-                creator: faker.random.arrayElement(userIds)
+                name: faker.random.arrayElement(skillsDB),
+                creator: faker.random.arrayElement(userIds),
             };
 
             const skill = new Skill(skillData);
@@ -75,37 +94,35 @@ mongoose.connect(env.db, {
 
     let skillSeeded;
 
-    try{
+    try {
         skillSeeded = await Promise.all(skillPromises);
         console.log("We stored 10 skills in the DB");
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 
     const skillIds = skillSeeded.map((skill) => skill._id);
 
-
-
     //DELETE OLD TASKS
-    try{
+    try {
         await Task.deleteMany({});
         console.log("Old tasks deleted");
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
 
-    const possibleStatus = ["pending", "rejected", "finished", "confirmed", "acepted"]
+    const possibleStatus = ["pending", "rejected", "finished", "confirmed"];
 
     const taskPromises = Array(10)
         .fill(null)
-        .map(()=>{
+        .map(() => {
             const taskData = {
                 skill: faker.random.arrayElement(skillIds),
                 boons: faker.commerce.price(),
                 message: faker.lorem.paragraph(),
                 status: faker.random.arrayElement(possibleStatus),
                 date: faker.date.future(),
-                boonee:faker.random.arrayElement(userIds),
+                boonee: faker.random.arrayElement(userIds),
                 booner: faker.random.arrayElement(userIds),
                 rating: Math.floor(Math.random() * (5 - 1 + 1) + 1),
             };
@@ -116,13 +133,12 @@ mongoose.connect(env.db, {
 
     let tasksSeeded;
 
-    try{
+    try {
         tasksSeeded = await Promise.all(taskPromises);
         console.log("We stored 10 tasks in the DB");
-    }catch(error){
+    } catch (error) {
         console.log(error);
-    }  
+    }
 
-mongoose.connection.close();
-
+    mongoose.connection.close();
 })();
