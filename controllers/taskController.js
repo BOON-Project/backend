@@ -43,7 +43,7 @@ exports.updateTask = async (req, res, next) => {
                 .reduce((acc, cur) => acc + cur, 0);
             const ave = rateTotal / userTasksRated.length;
 
-            return ave;
+            return Math.round10(ave, -1);
         };
         const userRating = userRatingFunction();
 
